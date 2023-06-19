@@ -54,6 +54,5 @@ describe("createFile", () => {
     createFile(filePath);
 
     expect(fs.existsSync).toHaveBeenCalledTimes(2);
-    console.log(2, { fs });
   });
 });

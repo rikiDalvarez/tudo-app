@@ -3,8 +3,6 @@ import requestHandler from "./requestHandler";
 import http from "http";
 import createFile from "./createFileJSON";
 
-console.log(createFile);
-
 createFile("../data");
 
 const server = http.createServer((req, res) => {
