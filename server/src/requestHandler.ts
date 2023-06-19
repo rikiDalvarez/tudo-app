@@ -1,8 +1,11 @@
 import { request } from "http";
 
-function requestHandler(req, res, path, query) {
-  console.log("requestHandler called");
-  res.end("Hello World");
-}
+export const requestHandler = (req, res, path: string, query) => {
+  if (path === "/todos" && req.method === "GET") {
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+};
 
 export default requestHandler;

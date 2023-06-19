@@ -1,7 +1,6 @@
 import { parse } from "url";
 import requestHandler from "./requestHandler";
 import http from "http";
-import path from "path";
 
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
