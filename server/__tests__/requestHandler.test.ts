@@ -6,7 +6,7 @@ describe("requestHandler", () => {
   let res: ServerResponse;
 
   beforeEach(() => {
-    // Create a fresh mock for req and res before each test case
+    // generate a mock request and response object;
     req = {
       method: "",
       url: "",
@@ -26,10 +26,8 @@ describe("requestHandler", () => {
     req.method = "GET";
     req.url = "/todos";
 
-    // Call the requestHandler function
     requestHandler(req, res, "/todos", {});
 
-    // Assert the expected response
     expect(res.statusCode).toBe(200);
     expect(res.end).toHaveBeenCalledWith("GET todos");
   });
@@ -38,10 +36,8 @@ describe("requestHandler", () => {
     req.method = "GET";
     req.url = "/other";
 
-    // Call the requestHandler function
     requestHandler(req, res, "/other", {});
 
-    // Assert the expected response
     expect(res.statusCode).toBe(404);
     expect(res.end).toHaveBeenCalledWith("main page");
   });
