@@ -1,10 +1,17 @@
-import { request } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
-export const requestHandler = (req, res, path: string, query) => {
+export const requestHandler = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  path: string,
+  query: unknown
+) => {
   if (path === "/todos" && req.method === "GET") {
+    res.statusCode = 200;
+    return res.end("GET todos");
   } else {
     res.statusCode = 404;
-    res.end();
+    res.end("main page");
   }
 };
 
