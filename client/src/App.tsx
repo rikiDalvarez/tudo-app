@@ -15,13 +15,19 @@ function App() {
 
   return (
     <>
-      <div>
-        {todos.map((todo: any, index: number) => (
-          <div className="todo" key={index}>
-            <h1 className="todoTitle">{todo.title}</h1>
-            <input className="todoCheckbox" type="checkbox" />
-          </div>
-        ))}
+      <div className="app">
+        <div className="headerInput">
+          <h1>TudoList</h1>
+          <input type="text" placeholder='input todo here' />
+        </div>
+        <div className='list'>
+          {todos.map((todo: any, index: number) => (
+            <div className="todo" key={index}>
+              <h1 className="todoTitle">{todo.title}</h1>
+              <input className="todoCheckbox" type="checkbox" />
+            </div>
+          ))}
+        </div>
       </div>
     </>
   )
