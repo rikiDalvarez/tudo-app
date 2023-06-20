@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import TodoForm from './TodoForm';
 
 function App() {
   const [todos, setTodos] = useState([])
@@ -11,19 +10,16 @@ function App() {
       .then(res => res.json())
       .then(data => setTodos(data))
 
-  }, []);
+  }, [todos]);
 
   return (
     <>
       <div className="app">
-        <div className="headerInput">
-          <h1>TudoList</h1>
-          <input type="text" placeholder='input todo here' />
-        </div>
+        <TodoForm />
         <div className='list'>
           {todos.map((todo: any, index: number) => (
             <div className="todo" key={index}>
-              <h1 className="todoTitle">{todo.title}</h1>
+              <h1 className="todoTitle">{todo.todo}</h1>
               <input className="todoCheckbox" type="checkbox" />
             </div>
           ))}
