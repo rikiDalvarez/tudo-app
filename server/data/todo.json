@@ -1,5 +1,1 @@
-[
-  { "id": 1, "title": "test", "completed": false },
-  { "id": 2, "title": "look for a job", "completed": false },
-  { "id": 3, "title": "clean the dishes", "completed": false }
-]
+[{"todo":"add todo","done":true},{"todo":"let todo","done":true},{"todo":"test","done":true}]

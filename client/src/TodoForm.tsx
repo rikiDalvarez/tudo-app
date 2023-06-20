@@ -30,7 +30,7 @@ function TodoForm() {
 	return (
 		<div className="headerInput">
 			<h1>TodoList</h1>
-			<form onSubmit={handleSubmit}>
+			<form id={todo} onSubmit={handleSubmit}>
 				<input
 					type="text"
 					placeholder="Input todo here"

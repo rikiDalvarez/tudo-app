@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import fs from "fs";
 import path from "path";
 const todoPath = path.join(__dirname, "../data/todo.json");
+const donePath = path.join(__dirname, "../data/todo.json");
 
 export const requestHandler = (
   req: IncomingMessage,
@@ -17,7 +18,6 @@ export const requestHandler = (
     );
     res.end(data);
   } else if (reqPath === "/todos" && req.method === "POST") {
-    res.statusCode = 201;
     let body = "";
     req.on("data", (chunk) => {
       body += chunk;
@@ -26,11 +26,32 @@ export const requestHandler = (
       const dataFile = JSON.parse(fs.readFileSync(todoPath, "utf-8"));
       dataFile.push(JSON.parse(body));
       fs.writeFileSync(todoPath, JSON.stringify(dataFile));
+      res.statusCode = 201;
       res.end("Request body received");
     });
-  } else {
-    res.statusCode = 404;
-    res.end("main page");
+  } else if (reqPath === "/todos" && req.method === "PUT") {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk;
+    });
+    req.on("end", () => {
+      const updatedTodos = JSON.parse(body);
+      const dataFile = JSON.parse(fs.readFileSync(todoPath, "utf-8"));
+      const doneFile = JSON.parse(fs.readFileSync(donePath, "utf-8"));
+
+      // Update the todos in the dataFile based on the received updatedTodos
+      dataFile.forEach((todo, index) => {
+        if (updatedTodos[index]) {
+          todo.done = updatedTodos[index].done;
+        }
+      });
+
+      // Write the updated todos back to the JSON file
+      fs.writeFileSync(todoPath, JSON.stringify(dataFile));
+
+      res.statusCode = 204;
+      res.end("Todos updated successfully");
+    });
   }
 };
 
