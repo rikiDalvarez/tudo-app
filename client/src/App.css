@@ -98,3 +98,8 @@ h1{
 }
 
 
+.listContainer {
+  display: flex;
+  flex-direction: row;
+}
+

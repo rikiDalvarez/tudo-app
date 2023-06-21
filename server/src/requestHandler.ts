@@ -12,11 +12,16 @@ export const requestHandler = (
 ) => {
   if (reqPath === "/todos" && req.method === "GET") {
     //readTodoList
+    const data = fs.readFileSync(todoPath, "utf-8");
+    const todo = fs.readFileSync(donePath, "utf-8");
+    const test = [data, todo];
+
     res.statusCode = 200;
-    const data = fs.readFileSync(
-      path.join(__dirname, "../data/todo.json"),
-      "utf-8"
-    );
+    res.end(JSON.stringify(test));
+  } else if (reqPath === "/todos/done" && req.method === "GET") {
+    //renderDoneList
+    const data = fs.readFileSync(donePath, "utf-8");
+    res.statusCode = 200;
     res.end(data);
   } else if (reqPath === "/todos" && req.method === "POST") {
     //WriteTodo

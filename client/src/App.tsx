@@ -4,6 +4,7 @@ import TodoForm from './TodoForm';
 
 function App() {
   const [todos, setTodos] = useState([])
+  const [dones, setDones] = useState([])
 
   const handleCheckboxChange = async (index: number) => {
     const updatedTodos = [...todos];
@@ -34,7 +35,10 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:3000/todos")
       .then(res => res.json())
-      .then(data => setTodos(data))
+      .then(data => {
+        setTodos(JSON.parse(data[0]));
+        setDones(JSON.parse(data[1]))
+      })
 
   }, [todos]);
 
@@ -42,28 +46,51 @@ function App() {
     <>
       <div className="app">
         <TodoForm />
-        <div className='list'>
-          {todos.map((todo: any, index: number) => {
-            //ignore this logic - REFRACTOR
-            if (todo.done === false) {
-              return (
-                <div className="todo" key={index}>
-                  <button className="delete-button" onClick={() => handleClickDelete(index)}>
-                    <span className="delete-icon"></span>
-                  </button>
-                  <h1 className="todoTitle">{todo.todo}</h1>
-                  <input
-                    className="todoCheckbox"
-                    type="checkbox"
-                    checked={todo.done}
-                    onChange={() => handleCheckboxChange(index)}
-                  />
-                </div>
-              );
-            }
-          })}
+        <div className="listContainer">
+          <div className='list'>
+            {todos.map((todo: any, index: number) => {
+              //ignore this logic - REFRACTOR
+              if (todo.done === false) {
+                return (
+                  <div className="todo" key={index}>
+                    <button className="delete-button" onClick={() => handleClickDelete(index)}>
+                      <span className="delete-icon"></span>
+                    </button>
+                    <h1 className="todoTitle">{todo.todo}</h1>
+                    <input
+                      className="todoCheckbox"
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                  </div>
+                );
+              }
+            })}
+            {/* <DoneTodos /> */}
+          </div>
+          <div className="listDone">
+            {dones.map((todo: any, index: number) => {
+              //ignore this logic - REFRACTOR
+              if (todo.done === true) {
+                return (
+                  <div className="todo" key={index}>
+                    <button className="delete-button" onClick={() => handleClickDelete(index)}>
+                      <span className="delete-icon"></span>
+                    </button>
+                    <h1 className="todoTitle">{todo.todo}</h1>
+                    <input
+                      className="todoCheckbox"
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
-
       </div>
     </>
   )
