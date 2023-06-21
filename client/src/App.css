@@ -54,7 +54,7 @@
 .todoTitle {
   color: rgb(78, 84, 249);
   margin:5px;
-  padding-left: 20px;
+  padding-left: 5px;
 }
 
 .todoDone {
@@ -82,5 +82,19 @@ h1{
   flex-direction: column;
 }
 
+.delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/pngwing.com.png');
+  /* Replace with the actual image URL */
+  background-size: cover;
+}
 
 
