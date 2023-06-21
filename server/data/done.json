@@ -1,5 +1,1 @@
-[
-  { "todo": "glitter", "done": true },
-  { "todo": "how you feel", "done": true },
-  { "todo": "test", "done": true }
-]
+[{"todo":"test","done":true}]

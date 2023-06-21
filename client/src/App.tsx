@@ -4,22 +4,32 @@ import TodoForm from './TodoForm';
 
 function App() {
   const [todos, setTodos] = useState([])
-  const [done, setDone] = useState([])
 
   const handleCheckboxChange = async (index: number) => {
     const updatedTodos = [...todos];
     updatedTodos[index].done = !updatedTodos[index].done;
-    const todoDone = updatedTodos.splice(index, 1);
     setTodos(updatedTodos)
-    // const body ={todos: todos, done : todoDone} 
     const response = await fetch("http://localhost:3000/todos", {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(todos),
+      body: JSON.stringify(updatedTodos),
     })
   };
+
+  const handleClickDelete = async (index: number) => {
+    const updatedTodos = [...todos]
+    updatedTodos.splice(index, 1)
+    setTodos(updatedTodos)
+    const response = await fetch("http://localhost:3000/todos", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedTodos),
+    })
+  }
 
   useEffect(() => {
     fetch("http://localhost:3000/todos")
@@ -34,10 +44,11 @@ function App() {
         <TodoForm />
         <div className='list'>
           {todos.map((todo: any, index: number) => {
+            //ignore this logic - REFRACTOR
             if (todo.done === false) {
               return (
                 <div className="todo" key={index}>
-                  <button className="delete-button">
+                  <button className="delete-button" onClick={() => handleClickDelete(index)}>
                     <span className="delete-icon"></span>
                   </button>
                   <h1 className="todoTitle">{todo.todo}</h1>
