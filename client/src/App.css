@@ -71,10 +71,11 @@ h1{
       font-size: 0.5em;
       margin: 1em;
       padding: 1em;
-      border: 1px solid #888;
+      border: 1px solid #2cfe1d;
       border-radius: 0.5em;
       text-align: left;
       display: flex;
+      background-color: rgb(48, 100, 49);
 }
 
 .list {
@@ -99,6 +100,7 @@ h1{
 
 
 .listContainer {
+
   display: flex;
   flex-direction: row;
 }

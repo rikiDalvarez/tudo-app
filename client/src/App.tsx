@@ -48,6 +48,7 @@ function App() {
         <TodoForm />
         <div className="listContainer">
           <div className='list'>
+            <h2>Todo</h2>
             {todos.map((todo: any, index: number) => {
               //ignore this logic - REFRACTOR
               if (todo.done === false) {
@@ -70,15 +71,13 @@ function App() {
             {/* <DoneTodos /> */}
           </div>
           <div className="listDone">
+            <h2>Complete</h2>
             {dones.map((todo: any, index: number) => {
               //ignore this logic - REFRACTOR
               if (todo.done === true) {
                 return (
-                  <div className="todo" key={index}>
-                    <button className="delete-button" onClick={() => handleClickDelete(index)}>
-                      <span className="delete-icon"></span>
-                    </button>
-                    <h1 className="todoTitle">{todo.todo}</h1>
+                  <div className="done" key={index}>
+                    <h1 className="todoDone">{todo.todo}</h1>
                     <input
                       className="todoCheckbox"
                       type="checkbox"
