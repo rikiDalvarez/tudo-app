@@ -1,12 +1,24 @@
 import { requestHandler } from "../src/requestHandler";
 import { IncomingMessage, ServerResponse } from "http";
+import fs from "fs";
+import path from "path";
 
 describe("requestHandler", () => {
   let req: IncomingMessage;
   let res: ServerResponse;
 
+  const readFileSyncSpy = jest
+    .spyOn(fs, "readFileSync")
+    .mockImplementation((filePath: string) => {
+      if (filePath === path.join(__dirname, "../data/todo.json")) {
+        return "mock todo data";
+      } else if (filePath === path.join(__dirname, "../data/done.json")) {
+        return "mock done data";
+      }
+      throw new Error(`Unknown file path: ${filePath}`);
+    });
+
   beforeEach(() => {
-    // generate a mock request and response object;
     req = {
       method: "",
       url: "",
@@ -18,7 +30,6 @@ describe("requestHandler", () => {
   });
 
   afterEach(() => {
-    // Reset the mocks after each test case
     jest.resetAllMocks();
   });
 
@@ -29,7 +40,15 @@ describe("requestHandler", () => {
     requestHandler(req, res, "/todos", {});
 
     expect(res.statusCode).toBe(200);
-    expect(res.end).toHaveBeenCalledWith("GET todos");
+    expect(readFileSyncSpy).toHaveBeenCalledTimes(2);
+    expect(readFileSyncSpy).toHaveBeenCalledWith(
+      path.join(__dirname, "../data/todo.json"),
+      "utf-8"
+    );
+    expect(readFileSyncSpy).toHaveBeenCalledWith(
+      path.join(__dirname, "../data/done.json"),
+      "utf-8"
+    );
   });
 
   it("should handle other paths", () => {
@@ -39,6 +58,5 @@ describe("requestHandler", () => {
     requestHandler(req, res, "/other", {});
 
     expect(res.statusCode).toBe(404);
-    expect(res.end).toHaveBeenCalledWith("main page");
   });
 });

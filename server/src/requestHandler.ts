@@ -18,11 +18,6 @@ export const requestHandler = (
 
     res.statusCode = 200;
     res.end(JSON.stringify(test));
-  } else if (reqPath === "/todos/done" && req.method === "GET") {
-    //renderDoneList
-    const data = fs.readFileSync(donePath, "utf-8");
-    res.statusCode = 200;
-    res.end(data);
   } else if (reqPath === "/todos" && req.method === "POST") {
     //WriteTodo
     let body = "";
@@ -44,9 +39,7 @@ export const requestHandler = (
     });
     req.on("end", () => {
       const updatedTodos = JSON.parse(body);
-
       const doneFile = JSON.parse(fs.readFileSync(donePath, "utf-8"));
-
       updatedTodos.forEach((todo, index) => {
         if (todo.done === true) {
           const element = updatedTodos.splice(index, 1);
@@ -68,6 +61,9 @@ export const requestHandler = (
       const updatedTodos = JSON.parse(body);
       fs.writeFileSync(todoPath, JSON.stringify(updatedTodos));
     });
+  } else {
+    res.statusCode = 404;
+    res.end("no data found here");
   }
 };
 
