@@ -32,12 +32,13 @@ function TodoForm() {
 			<h1>TodoList</h1>
 			<form id={todo} onSubmit={handleSubmit}>
 				<input
+					className='input'
 					type="text"
 					placeholder="Input todo here"
 					value={todo}
 					onChange={(e) => setTodo(e.target.value)}
 				/>
-				<button type="submit">Add Todo</button>
+				<button className="addTodo" type="submit">Add Todo</button>
 			</form>
 		</div>
 	);

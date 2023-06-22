@@ -36,6 +36,7 @@
  border: 2px solid #006100;
  border-radius: 10px;
  padding: 10px;
+ min-width: 1000px;
  
   
 }
@@ -89,16 +90,17 @@ h1{
   display: flex;
   flex-direction: column;
   padding: 5px;
+  min-width: 50px;
+  width: 450px;
 }
 
 .listDone {
   display: flex;
   flex-direction: column;
   padding: 5px;
+  min-width: 50px;
+  width: 450px;
   
-
-  
-
 }
 
 .delete-button {
@@ -118,7 +120,18 @@ h1{
 
 
 .listContainer {
-  
   display: flex;
   flex-direction: row;
+  margin: 2em;
+  justify-content: space-around;
+}
+
+
+.addTodo {
+  margin: 2em;
+}
+
+.input{
+  margin: 2em;
+
 }
