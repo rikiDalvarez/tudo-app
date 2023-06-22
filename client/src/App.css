@@ -32,6 +32,13 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+.app {
+ border: 2px solid #006100;
+ border-radius: 10px;
+ padding: 10px;
+ 
+  
+}
 
 .card {
   padding: 2em;
@@ -81,6 +88,17 @@ h1{
 .list {
   display: flex;
   flex-direction: column;
+  padding: 5px;
+}
+
+.listDone {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  
+
+  
+
 }
 
 .delete-button {
@@ -100,8 +118,7 @@ h1{
 
 
 .listContainer {
-
+  
   display: flex;
   flex-direction: row;
 }
-

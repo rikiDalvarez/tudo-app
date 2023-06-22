@@ -1,6 +1,6 @@
 import { requestHandler } from "../src/requestHandler";
 import { IncomingMessage, ServerResponse } from "http";
-import fs from "fs";
+import fs, { write } from "fs";
 import path from "path";
 
 describe("requestHandler", () => {
@@ -16,7 +16,7 @@ describe("requestHandler", () => {
       if (filePath === path.join(__dirname, "../data/todo.json")) {
         return JSON.stringify([
           { todo: "Task 3", done: false },
-          { tod: "Task 4", done: false },
+          { todo: "Task 4", done: false },
         ]);
       } else if (filePath === path.join(__dirname, "../data/done.json")) {
         return JSON.stringify([{ todo: "Task 5", done: true }]);
@@ -118,9 +118,21 @@ describe("requestHandler", () => {
     expect(res.statusCode).toBe(201);
   });
   it("should DELETE a todo", () => {
-    // let data = [{ todo: "test", done: false }];
-    // req.method = "DELETE";
-    // requestHandler(req, res, "/todos", {});
-    // expect(res.statusCode).toBe(200);
+    req.method = "DELETE";
+    req.url = "/todos";
+    const data = [{ todo: "Task 3", done: false }];
+
+    req.on = jest
+      .fn()
+      .mockImplementation((event: string, callback: Function) => {
+        if (event === "data") {
+          callback(JSON.stringify(data));
+        } else if (event === "end") {
+          callback();
+        }
+      });
+
+    requestHandler(req, res, "/todos", {});
+    expect(writeFileSyncSpy).toHaveBeenCalled();
   });
 });
