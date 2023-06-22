@@ -1,1 +1,4 @@
-[{"todo":"test1","done":true},{"todo":"test","done":true},{"todo":"hello ","done":true},{"todo":"test","done":true},{"todo":"hello there","done":true},{"todo":"test","done":true},{"todo":"twolala","done":true},{"todo":"badstyl","done":true}]
+[
+  { "todo": "hola", "done": true },
+  { "todo": "test", "done": true }
+]
