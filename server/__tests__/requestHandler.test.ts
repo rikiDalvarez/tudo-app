@@ -4,16 +4,22 @@ import fs from "fs";
 import path from "path";
 
 describe("requestHandler", () => {
+  //setup and teardown
   let req: IncomingMessage;
   let res: ServerResponse;
+
+  const writeFileSyncSpy = jest.spyOn(fs, "writeFileSync").mockImplementation();
 
   const readFileSyncSpy = jest
     .spyOn(fs, "readFileSync")
     .mockImplementation((filePath: string) => {
       if (filePath === path.join(__dirname, "../data/todo.json")) {
-        return "mock todo data";
+        return JSON.stringify([
+          { todo: "Task 3", done: false },
+          { tod: "Task 4", done: false },
+        ]);
       } else if (filePath === path.join(__dirname, "../data/done.json")) {
-        return "mock done data";
+        return JSON.stringify([{ todo: "Task 5", done: true }]);
       }
       throw new Error(`Unknown file path: ${filePath}`);
     });
@@ -32,6 +38,8 @@ describe("requestHandler", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
+
+  //Test cases
 
   it("should handle GET request to /todos", () => {
     req.method = "GET";
@@ -54,9 +62,65 @@ describe("requestHandler", () => {
   it("should handle other paths", () => {
     req.method = "GET";
     req.url = "/other";
-
     requestHandler(req, res, "/other", {});
-
     expect(res.statusCode).toBe(404);
+    expect(res.end).toHaveBeenCalledWith("no data found here");
+  });
+
+  it("should handle the POST request", () => {
+    req.method = "POST";
+    req.url = "/todos";
+    const data = { todo: "Test", done: false };
+    const requestData = JSON.stringify(data);
+    const pseudoList = [];
+
+    req.on = jest
+      .fn()
+      .mockImplementation((event: string, callback: Function) => {
+        if (event === "data") {
+          callback(requestData);
+        } else if (event === "end") {
+          pseudoList.push(data);
+          callback();
+        }
+      });
+    requestHandler(req, res, "/todos", {});
+
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    expect(res.statusCode).toBe(201);
+    expect(res.end).toHaveBeenCalledWith("Request body received");
+    expect(pseudoList).toStrictEqual([data]);
+  });
+
+  it("should handle PUT request", () => {
+    req.method = "PUT";
+    req.url = "/todos";
+    const updatedTodos = [
+      { todo: "Task 1", done: true },
+      { todo: "Task 2", done: false },
+    ];
+    const requestBody = JSON.stringify(updatedTodos);
+
+    req.on = jest
+      .fn()
+      .mockImplementation((event: string, callback: Function) => {
+        if (event === "data") {
+          callback(requestBody);
+        } else if (event === "end") {
+          callback();
+        }
+      });
+
+    requestHandler(req, res, "/todos", {});
+
+    expect(writeFileSyncSpy).toHaveBeenCalledTimes(2);
+
+    expect(res.statusCode).toBe(201);
+  });
+  it("should DELETE a todo", () => {
+    // let data = [{ todo: "test", done: false }];
+    // req.method = "DELETE";
+    // requestHandler(req, res, "/todos", {});
+    // expect(res.statusCode).toBe(200);
   });
 });

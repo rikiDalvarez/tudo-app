@@ -49,10 +49,11 @@ export const requestHandler = (
       fs.writeFileSync(todoPath, JSON.stringify(updatedTodos));
       fs.writeFileSync(donePath, JSON.stringify(doneFile));
 
-      res.statusCode = 204;
+      res.statusCode = 201;
       res.end("Todos updated successfully");
     });
   } else if (reqPath === "/todos" && req.method === "DELETE") {
+    //deleteTodo
     let body = "";
     req.on("data", (chunk) => {
       body += chunk;
@@ -61,7 +62,10 @@ export const requestHandler = (
       const updatedTodos = JSON.parse(body);
       fs.writeFileSync(todoPath, JSON.stringify(updatedTodos));
     });
+    res.statusCode = 200;
+    res.end("todo deleted");
   } else {
+    //default status
     res.statusCode = 404;
     res.end("no data found here");
   }
