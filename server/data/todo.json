@@ -1,1 +1,7 @@
-[{"todo":"Task 3","done":false}]
+[
+  { "todo": "check emails", "done": false },
+  { "todo": "update honeypot profile", "done": false },
+  { "todo": "apply for job in honeypot", "done": false },
+  { "todo": "finish sql sprint", "done": false },
+  { "todo": "do the app in reviewer plataform", "done": false }
+]
